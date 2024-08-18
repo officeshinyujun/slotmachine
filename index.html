@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+        }
+        .container {
+            width: 100%;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            box-sizing: border-box;
+            background-image: url("https://png.pngtree.com/thumb_back/fh260/background/20230519/pngtree-room-with-slot-machines-image_2573768.jpg");
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+        button {
+            width: 100px;
+            height: 40px;
+            border: none;
+            background: goldenrod;
+            border-radius: 5px;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            transition: transform 0.3s ease, width 0.3s ease, height 0.3s ease;
+        }
+        button:hover {
+            width: 120px;
+            height: 50px;
+            transform: scale(1.2);
+        }
+        header {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            background: black;
+            color: white;
+        }
+        .pachingco {
+            width: 500px;
+            height: 700px;
+            border: 5px solid goldenrod;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: #444444;
+        }
+        .items {
+            display: flex;
+            flex-direction: row;
+            transition: border 0.3s ease;
+            width: 500px;
+            justify-content: center;
+            align-items: center;
+        }
+        .random, .randomBefore, .randomAfter {
+            font-size: 50px;
+        }
+        .randomBefore {
+            transform: perspective(100px) rotateX(30deg);
+        }
+        .randomAfter{
+            transform: perspective(100px) rotateX(-30deg);
+        }
+        .underButton {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            height: 200px;
+            border-top: 1px solid goldenrod;
+            align-items: center;
+            gap: 20px;
+            flex-direction: column;
+        }
+        .underButton > input {
+            border: none;
+            padding: 10px;
+            border-radius: 5px;
+            text-align: center;
+        }
+        .randomRoll{
+            background: black;
+            width: 33%;
+            border-right: 1px solid goldenrod;
+            border-left: 1px solid goldenrod;
+            padding: 7px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        .pachingcoTitle{
+            width: 300px;
+            height: 100px;
+            border-radius: 5px;
+            position: absolute;
+            top: 230px;
+            background: black;
+            border: 3px solid goldenrod;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .pachingcoTitle>h1{
+            font-size: 50px;
+            background: linear-gradient(to right, #ff0000, #F59300,#F0D800, #4CED00,#0026ED, #5B00EF);
+            color: transparent;
+            -webkit-background-clip: text;
+        }
+        .input1{
+            width: 90%;
+            border: none;
+            background: black;
+            color: white;
+        }
+        .leftMoney{
+            color: white;
+
+        }
+        .truee {
+            width: 100%;
+            height: 50px;
+            background: black;
+            margin-bottom: 30px;
+            border-bottom: white;
+            border-top: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: black;
+            color: white;
+
+        }
+
+    </style>
+</head>
+<body>
+<header>
+    <h1>뽑기기계</h1>
+</header>
+<div class="container">
+    <div>
+        <div class="pachingco">
+                <div class="pachingcoTitle">
+                    <h1>
+                        Lucky Slot
+                    </h1>
+                </div>
+            <h1 class="truee">winning</h1>
+            <div class="items">
+                    <div class="randomRoll">
+                        <div class="randomBefore">&#128507</div>
+                        <div class="random">&#128509</div>
+                        <div class="randomAfter">&#128510</div>
+                    </div>
+                    <div class="randomRoll">
+                        <div class="randomBefore">&#128507</div>
+                        <div class="random">&#128509</div>
+                        <div class="randomAfter">&#128510</div>
+                    </div>
+                    <div class="randomRoll">
+                        <div class="randomBefore">&#128507</div>
+                        <div class="random">&#128509</div>
+                        <div class="randomAfter">&#128510</div>
+                    </div>
+            </div>
+            <div class="underButton">
+                <button onclick="toRandom()">spin!</button>
+                <input placeholder="input money" onchange="money(event)" class="input1">
+            </div>
+            <p class="leftMoney">00</p>
+        </div>
+    </div>
+</div>
+<script>
+    let userMoney = 0;
+    const items = ["&#128508;", "&#128507;", "&#128509;", "&#128510;", "&#128511;"];
+
+    function getRandomIndex() {
+        return Math.floor(Math.random() * items.length);
+    }
+
+    function money(e) {
+        userMoney = parseInt(e.target.value);
+        console.log("Money entered:", userMoney);
+        updateMoneyDisplay();
+    }
+
+    function updateMoneyDisplay() {
+        const moneyDisplay = document.getElementsByClassName("leftMoney")[0];
+        moneyDisplay.innerHTML = userMoney;
+    }
+
+    function toRandom() {
+        if (userMoney <= 0) {
+            alert("Please input money to play!");
+            return;
+        }
+
+        const inputElements = document.getElementsByClassName("random");
+        const inputElementsBefore = document.getElementsByClassName("randomBefore");
+        const inputElementsAfter = document.getElementsByClassName("randomAfter");
+        let results = [];
+
+        function startRolling(i) {
+            let rollCount = 0;
+            const rollInterval = setInterval(() => {
+                const randomIndex = getRandomIndex();
+                inputElements[i].innerHTML = items[randomIndex];
+                inputElementsBefore[i].innerHTML = items[randomIndex - 1] || items[items.length - 1];
+                inputElementsAfter[i].innerHTML = items[randomIndex + 1] || items[0];
+                rollCount++;
+
+                if (rollCount > 10) {
+                    clearInterval(rollInterval);
+                    results[i] = randomIndex;
+
+                    if (i === inputElements.length - 1) {
+                        checkWin(results);
+                    }
+                }
+            }, 100);
+        }
+
+        for (let i = 0; i < inputElements.length; i++) {
+            setTimeout(() => {
+                startRolling(i);
+            }, i * 1000);  // 1초 간격으로 순차적으로 슬롯을 회전시킴
+        }
+
+        userMoney--;
+        console.log("Remaining money:", userMoney);
+        updateMoneyDisplay();
+    }
+
+    function checkWin(results) {
+        if (results[0] === results[1] && results[1] === results[2]) {
+            const border = document.getElementsByClassName("items")[0];
+            const textFillcolor = document.getElementsByClassName("truee")[0];
+            textFillcolor.style.color = 'black'
+            border.style.border = `3px solid red`;
+            textFillcolor.style.background = 'linear-gradient(to right, #ff0000, #F59300,#F0D800, #4CED00,#0026ED, #5B00EF)';
+
+            userMoney += 300;
+        }
+    }
+
+</script>
+</body>
+</html>
