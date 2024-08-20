@@ -17,11 +17,12 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            flex-direction: column;
+            gap: 50px;
             box-sizing: border-box;
             background-image: url("https://png.pngtree.com/thumb_back/fh260/background/20230519/pngtree-room-with-slot-machines-image_2573768.jpg");
             background-repeat: no-repeat;
             background-size: cover;
+            flex-direction: row;
         }
         button {
             width: 100px;
@@ -105,8 +106,6 @@
             width: 300px;
             height: 100px;
             border-radius: 5px;
-            position: absolute;
-            top: 230px;
             background: black;
             border: 3px solid goldenrod;
             display: flex;
@@ -119,7 +118,7 @@
             color: transparent;
             -webkit-background-clip: text;
         }
-        .input1{
+        .input1 {
             width: 90%;
             border: none;
             background: black;
@@ -141,23 +140,104 @@
             align-items: center;
             background: black;
             color: white;
-
         }
-
+        .pachingco-container{
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        .horse{
+            width: 500px;
+            height: 700px;
+            background: #444444;
+            border: 5px solid goldenrod;
+            display: flex;
+            box-sizing: border-box;
+            align-items: center;
+            flex-direction: column;
+        }
+        .HorseTitle{
+            width: 400px;
+            height: 100px;
+            border-radius: 5px;
+            background: black;
+            border: 3px solid goldenrod;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .HorseTitle>h1{
+            font-size: 50px;
+            background: linear-gradient(to right, #ff0000, #F59300,#F0D800, #4CED00,#0026ED, #5B00EF);
+            color: transparent;
+            -webkit-background-clip: text;
+        }
+        .horse-display{
+            width: 90%;
+            height: 300px;
+            margin-top: 50px;
+            border: 3px solid goldenrod;
+            background: forestgreen;
+            display: flex;
+            justify-content: center;
+            align-items: start;
+            box-sizing: border-box;
+            padding: 20px;
+            gap: 10px;
+            flex-direction: column;
+        }
+        .horse-num{
+            display: flex;
+            flex-direction: row;
+            gap: 15px;
+            align-items: center;
+            background: white;
+            box-sizing: border-box;
+            padding: 5px;
+            border-radius: 10px;
+        }
+        .horse-money{
+            width: 100%;
+            padding: 10px;
+            box-sizing:border-box;
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+        .money-input{
+            width: 90%;
+            height: 30px;
+            border: none;
+            border-radius: 5px;
+            background: black;
+            color: white;
+        }
+        .money-betting{
+            width: 30px;
+            height: 30px;
+            border:none;
+            background: black;
+            border-radius: 5px;
+            color: white;
+        }
     </style>
 </head>
 <body>
 <header>
     <h1>뽑기기계</h1>
+    <input placeholder="input money" onchange="money(event)" class="input1">
 </header>
 <div class="container">
-    <div>
+    <div class="pachingco-container">
+        <div class="pachingcoTitle">
+            <h1>
+                Lucky Slot
+            </h1>
+        </div>
         <div class="pachingco">
-                <div class="pachingcoTitle">
-                    <h1>
-                        Lucky Slot
-                    </h1>
-                </div>
             <h1 class="truee">winning</h1>
             <div class="items">
                     <div class="randomRoll">
@@ -178,13 +258,48 @@
             </div>
             <div class="underButton">
                 <button onclick="toRandom()">spin!</button>
-                <input placeholder="input money" onchange="money(event)" class="input1">
             </div>
             <p class="leftMoney">00</p>
         </div>
     </div>
+    <div class="pachingco-container">
+        <div class="HorseTitle">
+            <h1>
+                Horse Betting
+            </h1>
+        </div>
+        <div class="horse">
+            <div class="horse-display">
+                <div class="horse-num">
+                    <img src="horse-head-svgrepo-com.svg" id="horse1" style="width: 40px">
+                    <p>1</p>
+                </div>
+                <div class="horse-num">
+                    <img src="horse-head-svgrepo-com.svg" id="horse2" style="width: 40px">
+                    <p>2</p>
+                </div>
+                <div class="horse-num">
+                    <img src="horse-head-svgrepo-com.svg" id="horse3" style="width: 40px">
+                    <p>3</p>
+                </div>
+                <div class="horse-num">
+                    <img src="horse-head-svgrepo-com.svg" id="horse4" style="width: 40px">
+                    <p>4</p>
+                </div>
+            </div>
+            <div class="horse-money">
+                <div style="display: flex;align-items: center;justify-content: center;gap: 10px" onchange="horseNumber(event)">
+                    <h3>몇번말?</h3>
+                    <input class="money-betting">
+                </div>
+                <div class="leftMoney"></div>
+                <button id="horseBetting" onclick="runningHorse()">betting!</button>
+            </div>
+        </div>
+    </div>
 </div>
 <script>
+    let horseNum= 0;
     let userMoney = 0;
     const items = ["&#128508;", "&#128507;", "&#128509;", "&#128510;", "&#128511;"];
 
@@ -252,11 +367,69 @@
             textFillcolor.style.color = 'black'
             border.style.border = `3px solid red`;
             textFillcolor.style.background = 'linear-gradient(to right, #ff0000, #F59300,#F0D800, #4CED00,#0026ED, #5B00EF)';
-
             userMoney += 300;
+        }
+        else{
+            const border = document.getElementsByClassName("items")[0];
+            const textFillcolor = document.getElementsByClassName("truee")[0];
+            textFillcolor.style.color = 'white'
+            border.style.border = `none`;
+            textFillcolor.style.background = 'black';
         }
     }
 
+    function horseNumber(e) {
+        horseNum = parseInt(e.target.value);
+        if (horseNum < 1 || horseNum > 4) { // 말의 수는 1부터 4까지여야 합니다.
+            alert("1에서 4 사이의 숫자를 입력하세요!");
+        } else {
+            console.log("선택한 말 번호:", horseNum);
+        }
+    }
+
+    function runningHorse() {
+        const horseSpeeds = [
+            Math.floor(Math.random() * 10),
+            Math.floor(Math.random() * 10),
+            Math.floor(Math.random() * 10),
+            Math.floor(Math.random() * 10)
+        ];
+
+        console.log("말의 속도:", horseSpeeds);
+
+        let maxSpeed = horseSpeeds[0];
+        let maxHorseIndex = 0;
+
+        for (let i = 1; i < horseSpeeds.length; i++) {
+            if (horseSpeeds[i] > maxSpeed) {
+                maxSpeed = horseSpeeds[i];
+                maxHorseIndex = i;
+            }
+        }
+
+        const maxHorse = maxHorseIndex + 1;
+        console.log("가장 빠른 말은:", maxHorse);
+
+
+        for (let i = 1; i <= 4; i++) {
+            const horseElement = document.getElementById("horse" + i);
+            if (horseElement) {
+                horseElement.style.backgroundColor = '';
+            }
+        }
+
+        const fastestHorseElement = document.getElementById("horse" + maxHorse);
+        if (fastestHorseElement) {
+            fastestHorseElement.style.backgroundColor = 'yellow';
+        }
+
+        if (horseNum === maxHorse) {
+            alert("당첨!");
+        } else {
+            console.log("실패!");
+        }
+
+    }
 </script>
 </body>
 </html>
